@@ -59,6 +59,7 @@ def lwdbestpercent_counter(dd):
 def lwdpoint(data,score):
     return (data[0]**2-2*data[2]-data[1]-data[3])/sum(data)
 
+# data returns [wins,loses,draws,continues]
 def lwd_maincounter(dd):
     moves = []
     datas = []

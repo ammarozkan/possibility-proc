@@ -34,6 +34,16 @@
 # x_xP_oo__P
 # x_xP_oo__P
 
+# xx__B__oo
+# x_x_B__oo
+# x_x_B_o_o
+# x__xB__oo
+# x__xBx_oo
+# x__xBxo_o
+# x__xB_x_o
+# x__xB_xo_
+# x__xB__x_ x wins
+
 def moves(table,turn,nexturn):
     Pjump = 3
     result = []
@@ -51,7 +61,7 @@ def moves(table,turn,nexturn):
             elif i+1 < len(table) and table[i+1] == "P" and i-Pjump >= 0 and (table[i-Pjump] == "_" or table[i-Pjump] == nexturn):
                 result.append((i,i-Pjump))
             elif not pmove:
-                if i+1 < len(table) and (table[i+1] == "_" or table[i+1] == nexturn): result.append((i,i+1))
+                if (i+1 < len(table)) and (table[i+1] == "_" or table[i+1] == nexturn): result.append((i,i+1))
                 if i-1 >= 0 and (table[i-1] == "_" or table[i-1] == nexturn): result.append((i,i-1))
     return result
 
@@ -69,6 +79,8 @@ def Game(data={"moves":[],"table":"P_xxx_ooo_P","turn":"o","nexturn":"x","player
     #play
     if nex != None:
         newtable = list(data["table"])
+        if nex[1] >= len(newtable): print(f"FART {newtable} {nex}")
+
         newtable[nex[1]] = newtable[nex[0]]
         newtable[nex[0]] = "_"
         newdata["table"] = "".join(newtable)
@@ -88,7 +100,10 @@ def Game(data={"moves":[],"table":"P_xxx_ooo_P","turn":"o","nexturn":"x","player
     else: newdata["ruleofdraw"] = (newdata["table"].count(newdata["player"]),newdata["table"].count(newdata["opponent"]),0)
 
     nextmoves = moves(newdata["table"],newdata["turn"],newdata["nexturn"])
-    if sec=="cont" and (newdata["ruleofdraw"][2] == 15 or len(nextmoves) == 0): sec="draw"
+    if sec=="cont" and (newdata["ruleofdraw"][2] == 15 or len(nextmoves) == 0):
+        if newdata["table"].count(newdata["player"]) > newdata["table"].count(newdata["opponent"]): sec = "win"
+        elif newdata["table"].count(newdata["player"]) < newdata["table"].count(newdata["opponent"]): sec = "lose"
+        else: sec="draw"
     #if len(newdata["moves"]) == 1: sec="win"
 
 
